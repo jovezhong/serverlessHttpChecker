@@ -7,10 +7,14 @@ exports.handler = (event, context, callback) => {
         res.on('data', (chunk) => body += chunk);
         res.on('end', () => {
             body = JSON.parse(body);
+            if(body.length==0){
+                callback(null);
+                return;
+            }
             let slot=body[0].startTimestamp;
-            if(slot.startsWith('2020')){
+            if(slot.startsWith('2022')){
                 var params = {
-                    Message: "Found a slot in 2020: "+slot,
+                    Message: "Found a slot in 2022: "+slot,
                     TopicArn: process.env.SNS_ARN
                     };
                 new AWS.SNS().publish(params,function(err, data) {
